@@ -6,6 +6,7 @@
 ![Next.js](https://img.shields.io/badge/Next.js-16-black)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Free](https://img.shields.io/badge/Free-No_signup_required-emerald)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Us-7289da?style=flat&logo=discord&logoColor=white)](https://discord.gg/uda7M3QdV)
 
 ---
 
