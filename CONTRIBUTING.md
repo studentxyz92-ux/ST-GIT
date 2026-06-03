@@ -28,7 +28,7 @@ At this point, you're ready to make your changes! Feel free to ask for help; eve
 At this point, you should switch back to your master branch and make sure it's up to date with ST-GIT's master branch:
 
 ```bash
-git remote add upstream git@github.com:atulupadhyay/ST-GIT.git
+git remote add upstream git@github.com:studentxyz92-ux/ST-GIT.git
 git fetch upstream
 git merge upstream/main
 ```

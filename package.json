@@ -2,14 +2,14 @@
   "name": "ST-GIT",
   "version": "1.0.0",
   "description": "AI-powered GitHub repository analyzer and career co-pilot",
-  "author": "Atul Upadhyay",
+  "author": "studentxyz92-ux",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/atulupadhyay/ST-GIT.git"
+    "url": "https://github.com/studentxyz92-ux/ST-GIT.git"
   },
   "bugs": {
-    "url": "https://github.com/atulupadhyay/ST-GIT/issues"
+    "url": "https://github.com/studentxyz92-ux/ST-GIT/issues"
   },
   "keywords": ["github", "ai", "nextjs", "react", "analyzer"],
   "scripts": {
