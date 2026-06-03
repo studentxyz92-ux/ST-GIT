@@ -30,6 +30,19 @@ export interface TreeEntry {
     type: string;
 }
 
+export interface UserRepo {
+    name: string;
+    full_name: string;
+    description: string | null;
+    language: string | null;
+    stargazers_count: number;
+    forks_count: number;
+    open_issues_count: number;
+    updated_at: string;
+    fork: boolean;
+    archived: boolean;
+}
+
 const GITHUB_API = "https://api.github.com";
 
 function getHeaders() {
@@ -82,13 +95,17 @@ export async function fetchReadme(owner: string, repo: string): Promise<string> 
     }
 }
 
-export async function fetchFileTree(owner: string, repo: string, branch: string): Promise<string> {
+export async function fetchFileTree(owner: string, repo: string, branch?: string): Promise<string> {
     try {
+        const b = branch || "main";
         const res = await fetch(
-            `${GITHUB_API}/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`,
+            `${GITHUB_API}/repos/${owner}/${repo}/git/trees/${b}?recursive=1`,
             { headers: getHeaders() }
         );
-        if (!res.ok) return "";
+        if (!res.ok) {
+            if (b === "main") return fetchFileTree(owner, repo, "master");
+            return "";
+        }
         const data = await res.json();
         const entries: TreeEntry[] = data.tree || [];
         const relevant = entries
@@ -134,4 +151,50 @@ export async function fetchCodeSnippets(
     } catch {
         return "";
     }
+}
+
+export async function fetchUserRepos(username: string): Promise<UserRepo[]> {
+    const allRepos: UserRepo[] = [];
+    let page = 1;
+    let hasMore = true;
+
+    while (hasMore && page <= 5) {
+        const res = await fetch(
+            `${GITHUB_API}/users/${username}/repos?per_page=100&page=${page}&sort=updated&type=public`,
+            { headers: getHeaders() }
+        );
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.message || `GitHub API returned ${res.status}`);
+        }
+        const repos: UserRepo[] = await res.json();
+        allRepos.push(...repos);
+        hasMore = repos.length === 100;
+        page++;
+    }
+
+    return allRepos.filter((r) => !r.fork && !r.archived);
+}
+
+export async function fetchUserInfo(username: string): Promise<{
+    login: string;
+    name: string | null;
+    avatar_url: string;
+    bio: string | null;
+    public_repos: number;
+    followers: number;
+    following: number;
+    blog: string | null;
+    location: string | null;
+    company: string | null;
+    html_url: string;
+}> {
+    const res = await fetch(`${GITHUB_API}/users/${username}`, {
+        headers: getHeaders(),
+    });
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || `GitHub API returned ${res.status}`);
+    }
+    return res.json();
 }

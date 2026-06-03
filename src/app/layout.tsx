@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { AuthProvider } from "../components/AuthProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "DevScore.ai — AI GitHub Project Reviewer",
+  title: "ST-GIT — AI GitHub Project Reviewer",
   description:
     "Instantly analyze any GitHub repository with AI. Get code quality scores, README improvements, structure feedback, resume tips, and a hiring readiness score.",
   keywords: [
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
     "repo analyzer",
   ],
   openGraph: {
-    title: "DevScore.ai — AI GitHub Project Reviewer",
+    title: "ST-GIT — AI GitHub Project Reviewer",
     description:
       "Paste your GitHub repo link and get an AI-powered score in seconds.",
     type: "website",
@@ -40,7 +41,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }
